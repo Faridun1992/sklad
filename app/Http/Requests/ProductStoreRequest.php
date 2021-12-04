@@ -26,11 +26,11 @@ class ProductStoreRequest extends FormRequest
     {
         return [
             'image' => ['nullable', 'image', 'mimes:jpeg,bmp,png,jpg', 'max:2048'],
-            'title' => ['required', 'min:4', 'max:255', Rule::unique('products')->ignore($this->products)],
+            'title' => ['required', 'min:4', 'max:255', Rule::unique('products')->ignore($this->product)],
             'category_id' => ['required', 'integer'],
             'unit_id' => ['required', 'integer'],
-            'code' => ['required', 'integer', 'min:13', Rule::unique('products')->ignore($this->products)],
-            'vendor_code' => ['nullable', Rule::unique('products')->ignore($this->products)],
+            'code' => ['required', 'integer', 'min:13', Rule::unique('products')->ignore($this->product)],
+            'vendor_code' => ['nullable', Rule::unique('products')->ignore($this->product)],
             'count' => ['required'],
             'price' => ['required'],
             'margin' => ['required'],

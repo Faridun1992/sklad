@@ -30,7 +30,7 @@ class StoreProductAction
             'margin' => $request->margin,
             'product_id' => $product->id,
         ]);
-        if ($request->has('search_field_code')) {
+        /*if ($request->has('search_field_code')) {
             Acceptance::create([
                 'count' => $request->count,
                 'price' => $request->price,
@@ -39,6 +39,6 @@ class StoreProductAction
             ]);
 
 
-        }
+        }*/
     }
 }

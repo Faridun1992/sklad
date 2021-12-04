@@ -21,4 +21,5 @@ Route::resource('categories', Controllers\CategoryController::class);
 Route::put('product/{id}', [Controllers\ProductController::class, 'deleteimage'])->name('deleteimage');
 Route::resource('products', Controllers\ProductController::class);
 Route::resource('units', Controllers\UnitController::class);
+Route::resource('acceptances', Controllers\AcceptanceController::class);
 
