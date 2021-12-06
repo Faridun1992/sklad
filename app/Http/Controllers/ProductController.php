@@ -19,10 +19,18 @@ class ProductController extends Controller
 
     public function index(ProductFilter $filter, Request $request)
     {
-        $products = Product::with('acceptances.product.category')
-            ->filter($filter, $request)
-            ->latest()
-            ->paginate(10);
+        $request->has('search_field_code' || 'storage_id' || 'category_id' || 'search_field_vendor' || 'search_field_title') ?
+            $products = Product::with( 'category')
+                ->withSum('acceptances', 'count')
+                ->withSum('acceptances', 'price')
+                ->filter($filter, $request)
+                ->latest()
+                ->paginate(10) :
+            $products = Product::with( 'category')
+                ->withSum('acceptances', 'count')
+                ->withSum('acceptances', 'price')
+                ->latest()
+                ->paginate(10);
         $storages = Storage::all();
         $categories = Category::all();
         return view('products.products_main', compact('products', 'categories', 'storages'));
@@ -56,7 +64,8 @@ class ProductController extends Controller
         $product->load('category', 'storage');
         $categories = Category::all();
         $storages = Storage::all();
-        return view('products.product_edit', compact('product', 'categories', 'storages'));
+        $units = Unit::all();
+        return view('products.product_edit', compact('product', 'categories', 'storages', 'units'));
     }
 
 

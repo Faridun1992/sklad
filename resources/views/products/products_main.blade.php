@@ -44,21 +44,6 @@
                                                     <li class="breadcrumb-item"><a href="{{route('products.index')}}"
                                                                                    target="_self">Товар</a>
                                                     </li>
-                                                    <li class="breadcrumb-item"><a href="#"
-                                                                                   class="active"
-                                                                                   target="_self">Услуга</a></li>
-                                                    <li class="breadcrumb-item active"><span
-                                                            aria-current="location"><a href="#"
-                                                                                       class="active"
-                                                                                       target="_self">Составной товар</a></span>
-                                                    </li>
-                                                    <li class="breadcrumb-item"><a href="#"
-                                                                                   class="active"
-                                                                                   target="_self">Универсальный
-                                                            товар</a></li>
-                                                    <li class="breadcrumb-item"><a href="#"
-                                                                                   class="active"
-                                                                                   target="_self">Архив</a></li>
                                                 </ol>
                                             </div>
                                         </div>
@@ -74,81 +59,60 @@
                                 Добавить товар
                             </button>
                         </a>
-                        <a href="#">
-                            <button id="employee_action_create" type="button" class="btn btn-primary">
-                                Загрузить товар
-                            </button>
-                        </a>
                     </div>
 
                     <div class="card card-with-table"><!---->
                         <div class="card-header"><span class="card-header-title">Товары</span></div>
                         <div class="card-header">
                             <form action="{{route('products.index')}}" method="get">
-                                <div class="row">
-                                    <div class="form-label">Склад</div>
-                                    <select name="storage_id">
-                                        <option value="">Склад</option>
-                                        @foreach($storages as $storage)
-                                        <option value="{{$storage->id}}" @if(isset($_GET['storage_id'])) @if($_GET['storage_id'] == $storage->id) selected @endif @endif>{{$storage->title}}</option>
-                                        @endforeach
-                                    </select>
-                                    <div>
-                                        <div>
-                                            <div class="form-group" aria-placeholder="Категория">
-                                                <select name="category_id">
-
-                                                    <option value="">Выбирите Категорию</option>
-                                                    @foreach($categories as $category)
-                                                        <option value="{{$category->id}}" @if(isset($_GET['category_id'])) @if($_GET['category_id'] == $category->id) selected @endif @endif>{{$category->title}}</option>
-                                                    @endforeach
-                                                </select>
-
-                                            </div>
-                                            <div tabindex="-1" class="multiselect__content-wrapper"
-                                                 style="max-height: 400px; display: none;">
-                                            </div>
-                                        </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-2">
+                                        <select id="inputState" class="form-control" name="storage_id">
+                                            <option>Выберите склад</option>
+                                            @foreach($storages as $storage)
+                                                <option value="{{$storage->id}}"
+                                                        @if(isset($_GET['storage_id'])) @if($_GET['storage_id'] == $storage->id) selected @endif @endif>{{$storage->title}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-
-
-                                    <div><input name="search_field_title" @if(isset($_GET['search_field_title'])) value="{{$_GET['search_field_title']}}" @endif id="filter_product_or_service_name" type="text"
-                                                placeholder="Наименование товара" class="form-control"><!---->
+                                    <div class="form-group col-md-2">
+                                        <select id="inputState" class="form-control" name="category_id">
+                                            <option>Выберите категорию</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{$category->id}}"
+                                                        @if(isset($_GET['category_id'])) @if($_GET['category_id'] == $category->id) selected @endif @endif>{{$category->title}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-
-
-                                    <div><input name="search_field_vendor" @if(isset($_GET['search_field_vendor'])) value="{{$_GET['search_field_vendor']}}" @endif id="filter_vendor_code" type="text" placeholder="Артикул"
-                                                class="form-control"><!----><!----><!----></div>
-
-
-                                    <div>
-                                        <input name="search_field_code" @if(isset($_GET['search_field_code'])) value="{{$_GET['search_field_code']}}" @endif id="filter_barcode" type="text" placeholder="Штрихкод"
+                                    <div class="form-group col-md-1.5">
+                                        <input name="search_field_title"
+                                               @if(isset($_GET['search_field_title'])) value="{{$_GET['search_field_title']}}"
+                                               @endif id="filter_product_or_service_name" type="text"
+                                               placeholder="Наименование товара" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-1.5">
+                                        <input name="search_field_vendor"
+                                               @if(isset($_GET['search_field_vendor'])) value="{{$_GET['search_field_vendor']}}"
+                                               @endif id="filter_vendor_code" type="text" placeholder="Артикул"
                                                class="form-control">
                                     </div>
-
-
-                                    <div>
-                                        <div class="custom-control custom-checkbox"><input
-                                                id="filter_product_in_stock" type="checkbox"
-                                                class="custom-control-input" value="true"><label
-                                                for="filter_product_in_stock" class="custom-control-label">
-                                                В наличии
-                                            </label></div><!----><!----><!----></div>
-
-
-                                    <div>
-                                        <button id="itemTableFilter_form_btn_submit" type="submit"
-                                                class="btn btn-outline-primary">
-                                            Найти
-                                        </button>
+                                    <div class="form-group col-md-1.5">
+                                        <input name="search_field_code"
+                                               @if(isset($_GET['search_field_code'])) value="{{$_GET['search_field_code']}}"
+                                               @endif id="filter_barcode" type="text" placeholder="Штрихкод"
+                                               class="form-control">
                                     </div>
-
-
-                                    <div>
-                                        <button id="itemTableFilter_form_btn_reset" type="reset"
-                                                class="btn btn-outline-secondary">
-                                            Сбросить
-                                        </button><!----><!----><!----></div>
+                                    <div class="form-group col-md-0.5">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"> Наличие
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-1.5">
+                                        <button type="submit" class="btn btn-primary">Поиск</button>
+                                    </div>
+                                    <div class="form-group col-md-1.5">
+                                        <button type="reset" class="btn btn-primary">Сбросить</button>
+                                    </div>
 
                                 </div>
                             </form>
@@ -185,7 +149,7 @@
                                     <th role="columnheader" scope="col" aria-colindex="6"
                                         aria-label="Ui Actions"
                                         class="">
-                                        <div>Цена продажи</div>
+                                        <div>Общая закупочная цена</div>
                                     </th>
                                     <th role="columnheader" scope="col" aria-colindex="7"
                                         aria-label="Ui Actions"
@@ -196,53 +160,53 @@
                                 </thead>
 
                                 <tbody role="rowgroup"><!---->
-                                @foreach($products as $item)
-                                        @foreach($item->acceptances as $product)
+                                @foreach($products as $product)
                                     <tr role="row" class="">
                                         <td aria-colindex="1" data-label="Фото" role="cell" class="">
-                                            <img src="images/{{$product->product->image ?? "no_image.jpg"}}" width="30" height="30" alt="">
+                                            <img src="images/{{$product->image ?? "no_image.jpg"}}"
+                                                 width="30" height="30" alt="">
                                         </td>
 
                                         <td aria-colindex="2" data-label="Название" role="cell" class="">
-                                            <div>{{$product->product->title ?? ''}}</div>
+                                            <div>{{$product->title}}</div>
                                         </td>
                                         <td aria-colindex="3" data-label="Артикуль" role="cell" class="">
-                                            <div>{{$product->product->vendor_code ?? ''}}</div>
+                                            <div>{{$product->vendor_code ?? ''}}</div>
                                         </td>
                                         <td aria-colindex="4" data-label="Категория" role="cell" class="">
                                             <div>
-                                                {{$product->product->category->title ?? ''}}
+                                                {{$product->category->title}}
                                             </div>
                                         </td>
                                         <td aria-colindex="4" data-label="Штрих код" role="cell" class="">
                                             <div>
-                                                {{$product->product->code ?? ''}}
+                                                {{$product->code}}
                                             </div>
                                         </td>
                                         <td aria-colindex="5" data-label="Количество" role="cell" class="">
                                             <div>
-                                                {{$product->count ?? ''}}
+                                                {{$product->acceptances_sum_count ?? 0}}
                                             </div>
                                         </td>
-                                        <td aria-colindex="6" data-label="Цена продажи" role="cell" class="">
+                                        <td aria-colindex="6" data-label="Общая сумма" role="cell" class="">
                                             <div>
-                                                {{($product->price + (($product->price * $product->margin)/100)) ?? ''}} ₸
+                                                {{($product->acceptances_sum_price) ?? 0}} ₸
                                             </div>
                                         </td>
                                         <td aria-colindex="7" data-label="Действия" role="cell" class="">
-                                            <form action="{{route('products.destroy', $product->product->id)}}" method="POST">
+                                            <form action="{{route('products.destroy', $product)}}"
+                                                  method="POST">
                                                 @csrf
                                                 @method('delete')
                                                 <button class="btn btn-danger btn-xs" type="submit">Удалить
                                                 </button>
                                             </form>
-                                            <a href="{{route('products.edit', $product->product->id)}}">
+                                            <a href="{{route('products.edit', $product)}}">
                                                 <button class="btn btn-secondary btn-xs" type="submit">
                                                     Редактировать
                                                 </button>
                                             </a>
                                         </td>
-                                        @endforeach
                                         @endforeach
                                     </tr><!----><!---->
 

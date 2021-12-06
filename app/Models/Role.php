@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Closure;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
@@ -16,6 +17,12 @@ class Role extends Model
     public function workers()
     {
         return $this->hasMany(Worker::class);
+    }
+    public function setname(Closure $callback): self
+    {
+        $this->descriptionForEvent = $callback;
+
+        return $this;
     }
 
     public function getActivitylogOptions(): LogOptions
