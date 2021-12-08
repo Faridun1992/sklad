@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             UnitSeeder::class,
             StorageSeeder::class,
             ProductSeeder::class,
-            AcceptanceSeeder::class
+//            AcceptanceSeeder::class
         ]);
     }
 }

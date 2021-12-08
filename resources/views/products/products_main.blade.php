@@ -68,7 +68,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-2">
                                         <select id="inputState" class="form-control" name="storage_id">
-                                            <option>Выберите склад</option>
+                                            <option value="">Выберите склад</option>
                                             @foreach($storages as $storage)
                                                 <option value="{{$storage->id}}"
                                                         @if(isset($_GET['storage_id'])) @if($_GET['storage_id'] == $storage->id) selected @endif @endif>{{$storage->title}}</option>
@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="form-group col-md-2">
                                         <select id="inputState" class="form-control" name="category_id">
-                                            <option>Выберите категорию</option>
+                                            <option value="">Выберите категорию</option>
                                             @foreach($categories as $category)
                                                 <option value="{{$category->id}}"
                                                         @if(isset($_GET['category_id'])) @if($_GET['category_id'] == $category->id) selected @endif @endif>{{$category->title}}</option>
@@ -149,7 +149,7 @@
                                     <th role="columnheader" scope="col" aria-colindex="6"
                                         aria-label="Ui Actions"
                                         class="">
-                                        <div>Общая закупочная цена</div>
+                                        <div>Цена продажи</div>
                                     </th>
                                     <th role="columnheader" scope="col" aria-colindex="7"
                                         aria-label="Ui Actions"
@@ -159,8 +159,9 @@
                                 </tr>
                                 </thead>
 
-                                <tbody role="rowgroup"><!---->
-                                @foreach($products as $product)
+                                <tbody role="rowgroup">
+
+                                @forelse($products as $product)
                                     <tr role="row" class="">
                                         <td aria-colindex="1" data-label="Фото" role="cell" class="">
                                             <img src="images/{{$product->image ?? "no_image.jpg"}}"
@@ -190,7 +191,7 @@
                                         </td>
                                         <td aria-colindex="6" data-label="Общая сумма" role="cell" class="">
                                             <div>
-                                                {{($product->acceptances_sum_price) ?? 0}} ₸
+                                                {{$product->lastAcceptance->selling_price ?? 0}} ₸
                                             </div>
                                         </td>
                                         <td aria-colindex="7" data-label="Действия" role="cell" class="">
@@ -207,8 +208,12 @@
                                                 </button>
                                             </a>
                                         </td>
-                                        @endforeach
-                                    </tr><!----><!---->
+                                    </tr>
+                                @empty
+                                    <tr role="row">
+                                        <td colspan="8">Такого товара в базе данных нет</td>
+                                    </tr>
+                                @endforelse
 
                                 </tbody><!---->
                             </table>

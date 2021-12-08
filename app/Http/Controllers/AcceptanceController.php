@@ -11,7 +11,7 @@ class AcceptanceController extends Controller
 
     public function index()
     {
-        //
+
     }
 
 
@@ -22,7 +22,10 @@ class AcceptanceController extends Controller
 
     public function store(AcceptanceRequest $request, Acceptance $acceptance)
     {
-        $acceptance->create($request->validated());
+        $acceptance->create($request->validated() + [
+                'selling_price' => ($request->price + ($request->price * $request->margin) / 100),
+                'total_buying_price' => $request->price * $request->count
+            ]);
         return redirect()->route('products.index')->with('status', 'товар успешно добавлен');
     }
 

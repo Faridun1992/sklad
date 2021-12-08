@@ -9,10 +9,14 @@ class Acceptance extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'count', 'price', 'margin'];
+    protected $fillable = ['product_id', 'count', 'price', 'margin', 'selling_price', 'total_buying_price', 'storage_id'];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+    public function storage()
+    {
+        return $this->belongsTo(Storage::class);
     }
 }

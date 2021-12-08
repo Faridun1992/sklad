@@ -15,10 +15,13 @@ class CreateAcceptancesTable extends Migration
     {
         Schema::create('acceptances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id');
+            $table->foreignId('product_id')->constrained();
             $table->float('count');
             $table->float('price');
             $table->float('margin');
+            $table->float('selling_price');
+            $table->float('total_buying_price');
+            $table->foreignId('storage_id')->constrained();
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ class CreateAcceptancesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acceptances');
+        Schema::dropIfExists('storages');
     }
 }

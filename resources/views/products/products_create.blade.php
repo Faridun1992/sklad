@@ -64,26 +64,26 @@
                         <div class="card card-with-table">
                             <div class="card-header">
                                 <div class="card-body pb-1">
-                                <p>Поиск по штрихкоду</p>
-                                <form class="row">
-                                    <fieldset class="form-group col-sm">
-                                        <div>
-                                            <div role="group" class="input-group">
-                                                <input name="search_field_code"
-                                                       @if(isset($_GET['search_field_code']) && !empty($_GET['search_field_code'])) value="{{$_GET['search_field_code']}}"
-                                                       @endif id="filter_barcode" type="text" placeholder="Штрихкод"
-                                                       class="form-control">
+                                    <p>Поиск по штрихкоду</p>
+                                    <form class="row">
+                                        <fieldset class="form-group col-sm">
+                                            <div>
+                                                <div role="group" class="input-group">
+                                                    <input name="search_field_code"
+                                                           @if(isset($_GET['search_field_code']) && !empty($_GET['search_field_code'])) value="{{$_GET['search_field_code']}}"
+                                                           @endif id="filter_barcode" type="text" placeholder="Штрихкод"
+                                                           class="form-control">
+                                                </div>
                                             </div>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset class="form-group col-auto">
-                                        <div>
-                                            <button type="submit" class="btn btn-success">
-                                                Найти товар в базе
-                                            </button>
-                                        </div>
-                                    </fieldset>
-                                </form>
+                                        </fieldset>
+                                        <fieldset class="form-group col-auto">
+                                            <div>
+                                                <button type="submit" class="btn btn-success">
+                                                    Найти товар в базе
+                                                </button>
+                                            </div>
+                                        </fieldset>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -104,14 +104,17 @@
                                                         <input type="file" name="image" class="form-control-file">
                                                         @if(isset($product) && !empty($product->image)) <img
                                                             src="/images/{{$product->image}}"
-                                                            class="img-responsive" width="100px" height="100px" alt="">@endif
+                                                            class="img-responsive" width="100px" height="100px"
+                                                            alt="">@endif
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-3">
                                                     <label for="title">Наименование</label>
-                                                    <input type="text" name="title" @if(isset($product) && !empty($product)) value="{{$product->title}}" @endif class="form-control"
+                                                    <input type="text" name="title"
+                                                           @if(isset($product) && !empty($product)) value="{{$product->title}}"
+                                                           @endif class="form-control"
                                                            placeholder="Наименование продукта">
                                                 </div>
                                                 <div class="form-group col-md-3">
@@ -146,7 +149,9 @@
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="inputAddress">Артикул</label>
-                                                    <input type="text" name="vendor_code" @if(isset($product) && !empty($product)) value="{{$product->vendor_code}}" @endif class="form-control"
+                                                    <input type="text" name="vendor_code"
+                                                           @if(isset($product) && !empty($product)) value="{{$product->vendor_code}}"
+                                                           @endif class="form-control"
                                                            placeholder="введите артикул">
                                                 </div>
 
@@ -162,7 +167,9 @@
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="inputPassword4">Штрихкод</label>
-                                                    <input type="text" @if(isset($product) && !empty($product)) value="{{$product->code}}" @endif class="form-control" name="code">
+                                                    <input type="text"
+                                                           @if(isset($product) && !empty($product)) value="{{$product->code}}"
+                                                           @endif class="form-control" name="code">
                                                 </div>
                                             </div>
                                         </div>
@@ -174,13 +181,8 @@
                                                     <select name="storage_id" class="form-control">
                                                         <option>Выбрать склад</option>
                                                         @foreach($storages as $storage)
-                                                            @if(isset($product) && !empty($product) && $storage->title == $product->storage->title)
-                                                                <option selected
-                                                                        value="{{$storage->id}}">{{$storage->title}}</option>
-                                                            @else
-                                                                <option
-                                                                    value="{{$storage->id}}">{{$storage->title}}</option>
-                                                            @endif
+                                                            <option
+                                                                value="{{$storage->id}}">{{$storage->title}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -200,7 +202,7 @@
 
                                     </form>
                             </div>
-                                @else
+                            @else
                                 <div class="card card-with-table">
                                     <form action="{{route('products.store')}}" method="post"
                                           enctype="multipart/form-data">
@@ -225,7 +227,8 @@
                                                     <select class="form-control" name="category_id">
                                                         <option>Выбрать категорию</option>
                                                         @foreach($categories as $category)
-                                                        <option value="{{$category->title}}">{{$category->title}}</option>
+                                                            <option
+                                                                value="{{$category->id}}">{{$category->title}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -234,7 +237,8 @@
                                                     <select name="unit_id" class="form-control">
                                                         <option>Выбрать ед.измерения</option>
                                                         @foreach($units as $unit)
-                                                            <option value="{{$unit->id}}">{{$unit->title."($unit->full_title)"}}</option>
+                                                            <option
+                                                                value="{{$unit->id}}">{{$unit->title."($unit->full_title)"}}</option>
 
                                                         @endforeach
                                                     </select>
@@ -269,7 +273,8 @@
                                                     <select name="storage_id" class="form-control">
                                                         <option>Выбрать склад</option>
                                                         @foreach($storages as $storage)
-                                                            <option value="{{$storage->id}}">{{$storage->title}}</option>
+                                                            <option
+                                                                value="{{$storage->id}}">{{$storage->title}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -287,13 +292,14 @@
                                             </div>
                                         </div>
                                     </form>
-                                @endif
+                                    @endif
                                 </div>
-                            </div><!----><!----></div>
-                        <div class="row">
-                            <div class="col mr-auto"><!----></div> <!----></div>
-                    </div> <!----> <!----></div>
-            </main>
-        </section>
+                        </div><!----><!----></div>
+                    <div class="row">
+                        <div class="col mr-auto"><!----></div> <!----></div>
+                </div> <!----> <!---->
+    </div>
+    </main>
+    </section>
     </div>
 @endsection

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Storage extends Model
 {
     use HasFactory;
+    protected $fillable = ['title', 'address', 'status'];
+
+
+    public function acceptances()
+    {
+        return $this->hasMany(Acceptance::class);
+    }
 }

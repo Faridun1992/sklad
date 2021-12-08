@@ -26,13 +26,13 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function storage()
-    {
-        return $this->belongsTo(Storage::class);
-    }
     public function acceptances()
     {
         return $this->hasMany(Acceptance::class);
+    }
+    public function lastAcceptance()
+    {
+        return $this->hasOne(Acceptance::class)->latest();
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter, Request $request)

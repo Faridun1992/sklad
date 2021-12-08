@@ -8,6 +8,10 @@ class ProductFilter extends QueryFilter
     {
         return $this->builder->when($id, fn($query) => $query->where('category_id', $id));
     }
+    public function storage_id($id = null)
+    {
+        return $this->builder->when($id, fn($query) => $query->where('storage_id', $id));
+    }
 
     public function search_field_title($search_string = '')
     {

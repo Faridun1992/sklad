@@ -17,10 +17,9 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            'image' => $this->faker->image('public/images', 75, 125, null, false) ?? null,
+            'image' => null,
             'title' => $this->faker->unique()->word,
             'category_id' => Category::all()->random()->id,
-            'storage_id' => Storage::all()->random()->id,
             'unit_id' => Unit::all()->random()->id,
             'code' => $this->faker->numberBetween(11111, 999999),
             'vendor_code' => $this->faker->numberBetween(2222, 543543),

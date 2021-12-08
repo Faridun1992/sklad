@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Product;
+use App\Models\Storage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AcceptanceFactory extends Factory
@@ -16,9 +17,11 @@ class AcceptanceFactory extends Factory
     {
         return [
             'product_id' => Product::all()->random()->id,
-            'count' => $this->faker->randomDigitNotNull,
-            'price' => $this->faker->randomDigitNotNull,
+            'count' => $this->faker->numberBetween(20,100),
+            'price' => $this->faker->numberBetween(1000, 1100),
             'margin' => 10,
+            'selling_price' => $this->faker->numberBetween(1100, 2200),
+            'storage_id' => Storage::all()->random()->id,
         ];
     }
 }

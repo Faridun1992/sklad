@@ -21,24 +21,17 @@ class StoreProductAction
             'unit_id' => $request->unit_id,
             'code' => $request->code,
             'vendor_code' => $request->vendor_code,
-            'storage_id' => $request->storage_id
         ]);
         Acceptance::create([
 
             'count' => $request->count,
             'price' => $request->price,
             'margin' => $request->margin,
-            'product_id' => $product->id,
+            'selling_price' => $request->price + ($request->price * $request->margin) / 100,
+            'total_buying_price' => $request->price * $request->count,
+            'product_id' => $product->id
         ]);
-        /*if ($request->has('search_field_code')) {
-            Acceptance::create([
-                'count' => $request->count,
-                'price' => $request->price,
-                'margin' => $request->margin,
-                'product_id' => $request->id,
-            ]);
 
-
-        }*/
+        $product->storages()->attach($request->storage_id);
     }
 }

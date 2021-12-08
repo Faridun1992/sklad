@@ -16,7 +16,12 @@ class StorageSeeder extends Seeder
     {
         $storages = [
             [
-                'title' => 'основной склад',
+                'title' => 'Основной склад',
+                'address' => 'г. Уральск',
+                'status' => true
+            ],
+            [
+                'title' => 'Дополнительный склад',
                 'address' => 'г. Уральск',
                 'status' => true
             ]
