@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorageRequest;
 use App\Models\Storage;
 use Illuminate\Http\Request;
 
@@ -20,36 +21,36 @@ class StorageController extends Controller
 
     public function create()
     {
-        //
+        return view('storages.storages_create');
     }
 
 
-    public function store(Request $request)
+    public function store(StorageRequest $request, Storage $storage)
     {
-        //
+        $storage->create($request->validated());
+        return redirect()->route('storages.index')->with('status', 'Новый склад успешно добавлен');
     }
 
 
-    public function show($id)
+    public function edit(Storage $storage)
     {
-        //
+        return view('storages.storages_edit', compact('storage'));
     }
 
 
-    public function edit($id)
+    public function update(StorageRequest $request, Storage $storage)
     {
-        //
+        $storage->update($request->validated());
+        return back()->with('status', "Склад $storage->title успешно отредактирован");
     }
 
 
-    public function update(Request $request, $id)
+    public function destroy(Storage $storage)
     {
-        //
-    }
-
-
-    public function destroy($id)
-    {
-        //
+        if ($storage->acceptances()->count()) {
+            return back()->withErrors('Нельзя удалить');
+        }
+        $storage->delete();
+        return back()->with('status', "Склад $storage->title  успешно уадален");
     }
 }

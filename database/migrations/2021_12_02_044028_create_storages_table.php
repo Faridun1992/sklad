@@ -15,7 +15,7 @@ class CreateStoragesTable extends Migration
     {
         Schema::create('storages', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->unique();
             $table->string('address')->nullable();
             $table->boolean('status')->default(false);
             $table->timestamps();
