@@ -29,9 +29,8 @@ class StoreProductAction
             'margin' => $request->margin,
             'selling_price' => $request->price + ($request->price * $request->margin) / 100,
             'total_buying_price' => $request->price * $request->count,
+            'storage_id' => $request->storage_id,
             'product_id' => $product->id
         ]);
-
-        $product->storages()->attach($request->storage_id);
     }
 }
