@@ -4,29 +4,30 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRolesTable extends Migration
+class CreateProductStorageTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    /*public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('product_storage', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('storage_id')->constrained();
             $table->timestamps();
         });
-    }
+    }*/
 
     /**
      * Reverse the migrations.
      *
      * @return void
      */
-    public function down()
+    /*public function down()
     {
-        Schema::dropIfExists('roles');
-    }
+        Schema::dropIfExists('product_storage');
+    }*/
 }

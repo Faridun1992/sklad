@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AcceptanceRequest;
 use App\Models\Acceptance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AcceptanceController extends Controller
 {

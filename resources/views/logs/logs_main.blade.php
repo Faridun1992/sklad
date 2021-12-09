@@ -79,7 +79,7 @@
                                                 </td>
 
                                                <td aria-colindex="2" data-label="Имя" role="cell" class="">
-                                                    <div>{{$activity->causer_id->name ?? ""}}</div>
+                                                    <div>{{$activity->causer_id}}</div>
                                                 </td>
                                                 <td aria-colindex="3" data-label="Должность" role="cell" class="">
                                                     <div>{{$activity->description}}</div>
@@ -102,7 +102,7 @@
 
                                         </tbody><!---->
                                     </table>
-                   {{--                 {{$workers->links()}}--}}
+                   {{--                 {{$users->links()}}--}}
                                 </div>
                             </div><!----><!----></div>
                         <div class="row">

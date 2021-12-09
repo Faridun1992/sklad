@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +13,18 @@ use \App\Http\Controllers;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [Controllers\IndexController::class, 'index'])->name('home');
-Route::resource('workers', Controllers\WorkerController::class);
-Route::resource('roles', Controllers\RoleController::class);
-Route::resource('logs', Controllers\LogController::class);
-Route::resource('categories', Controllers\CategoryController::class);
-Route::put('product/{id}', [Controllers\ProductController::class, 'deleteimage'])->name('deleteimage');
-Route::resource('products', Controllers\ProductController::class);
-Route::resource('units', Controllers\UnitController::class);
-Route::resource('storages', Controllers\StorageController::class);
-Route::resource('acceptances', Controllers\AcceptanceController::class);
+Route::middleware('auth')->group(function (){
+    Route::get('/', [Controllers\IndexController::class, 'index'])->name('home');
+    Route::resource('users', Controllers\UserController::class);
+    Route::resource('roles', Controllers\RoleController::class);
+    Route::resource('logs', Controllers\LogController::class)->middleware('role:Администратор');
+    Route::resource('categories', Controllers\CategoryController::class);
+    Route::put('product/{id}', [Controllers\ProductController::class, 'deleteimage'])->name('deleteimage');
+    Route::resource('products', Controllers\ProductController::class);
+    Route::resource('units', Controllers\UnitController::class);
+    Route::resource('storages', Controllers\StorageController::class);
+    Route::resource('acceptances', Controllers\AcceptanceController::class);
+});
 
 
-
+require __DIR__.'/auth.php';

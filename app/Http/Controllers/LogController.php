@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\User;
 use Spatie\Activitylog\Models\Activity;
 
 class LogController extends Controller
@@ -15,7 +15,8 @@ class LogController extends Controller
 
     public function show($id)
     {
-        $activity = Activity::where('id', $id)->get();
-        return view('logs.logs_show', compact('activity'));
+        $activity = Activity::where('id', $id)->firstOrFail();
+        $user = User::where('id', $activity->causer_id)->firstOrFail();
+        return view('logs.logs_show', compact('activity', 'user'));
     }
 }

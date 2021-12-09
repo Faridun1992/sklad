@@ -45,7 +45,7 @@
                                                     <li class="breadcrumb-item"><a href="{{route('home')}}"
                                                                                    target="_self">Главная страница</a>
                                                     </li>
-                                                    <li class="breadcrumb-item"><a href="{{route('workers.index')}}"
+                                                    <li class="breadcrumb-item"><a href="{{route('users.index')}}"
                                                                                    class="active"
                                                                                    target="_self">Сотрудники</a></li>
                                                     <li class="breadcrumb-item active"><span
@@ -60,20 +60,20 @@
                         </div>
                     </div>
                     <div class="buttons mb-3">
-                        <a href="{{route('workers.create')}}">
+                        <a href="{{route('users.create')}}">
                             <button id="employee_action_create" type="button" class="btn btn-primary">
                                 Добавить сотрудника
                             </button>
                         </a>
                     </div>
                     <ul class="nav nav-underlined flex-lg-wrap flex-nowrap mb-6">
-                        <li id="employee_tab_current_index" class="nav-item"><a href="{{route('workers.index')}}"
+                        <li id="employee_tab_current_index" class="nav-item"><a href="{{route('users.index')}}"
                                                                                 class="nav-link exact-active active"
                                                                                 target="_self" aria-current="page">
                                 Текущие
                             </a></li>
                         <li id="employee_tab_old_index" class="nav-item"><a
-                                href="{{route('workers.index', ['status' => false])}}" class="nav-link"
+                                href="{{route('users.index', ['status' => false])}}" class="nav-link"
                                 target="_self">
                                 Бывшие
                             </a></li>
@@ -113,32 +113,34 @@
                                         </thead>
 
                                         <tbody role="rowgroup"><!---->
-                                        @foreach($workers as $worker)
+                                        @foreach($users as $user)
 
                                             <tr role="row" class="">
                                                 <td aria-colindex="1" data-label="ID" role="cell" class="">
-                                                    <div>{{$worker->id}}</div>
+                                                    <div>{{$user->id}}</div>
                                                 </td>
 
                                                 <td aria-colindex="2" data-label="Имя" role="cell" class="">
-                                                    <div>{{$worker->name}}</div>
+                                                    <div>{{$user->name}}</div>
                                                 </td>
                                                 <td aria-colindex="3" data-label="Должность" role="cell" class="">
-                                                    <div>{{$worker->role->title}}</div>
+                                                    @foreach($user->roles as $role)
+                                                    <div>{{$role->name}}</div>
+                                                    @endforeach
                                                 </td>
                                                 <td aria-colindex="4" data-label="Телефон" role="cell" class="">
                                                     <div>
-                                                        {{$worker->phone}}
+                                                        {{$user->phone}}
                                                     </div>
                                                 </td>
                                                 <td aria-colindex="5" data-label="Действия" role="cell" class="">
-                                                    <form action="{{route('workers.destroy', $worker)}}" method="POST">
+                                                    <form action="{{route('users.destroy', $user)}}" method="POST">
                                                         @csrf
                                                         @method('delete')
                                                         <button class="btn btn-danger btn-xs" type="submit">Удалить
                                                         </button>
                                                     </form>
-                                                    <a href="{{route('workers.edit', $worker)}}">
+                                                    <a href="{{route('users.edit', $user)}}">
                                                         <button class="btn btn-secondary btn-xs" type="submit">
                                                             Редактировать
                                                         </button>
@@ -150,7 +152,7 @@
 
                                         </tbody><!---->
                                     </table>
-                                    {{$workers->withQueryString()->links()}}
+                                    {{$users->withQueryString()->links()}}
                                 </div>
                             </div><!----><!----></div>
                         <div class="row">

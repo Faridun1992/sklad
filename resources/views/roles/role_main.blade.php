@@ -67,13 +67,13 @@
                         </a>
                     </div>
                     <ul class="nav nav-underlined flex-lg-wrap flex-nowrap mb-6">
-                        <li id="employee_tab_current_index" class="nav-item"><a href="{{route('workers.index')}}"
+                        <li id="employee_tab_current_index" class="nav-item"><a href="{{route('users.index')}}"
                                                                                 class="nav-link exact-active active"
                                                                                 target="_self" aria-current="page">
                                 Текущие
                             </a></li>
                         <li id="employee_tab_old_index" class="nav-item"><a
-                                href="{{route('workers.index', ['status' => false])}}" class="nav-link"
+                                href="{{route('users.index', ['status' => false])}}" class="nav-link"
                                 target="_self">
                                 Бывшие
                             </a></li>

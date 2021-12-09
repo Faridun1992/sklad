@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class WorkerRequest extends FormRequest
+class AcceptanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +24,11 @@ class WorkerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'min:3', 'max:255'],
-            'email'=> ['required', Rule::unique('workers')->ignore($this->worker)],
-            'phone'=> ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
-            'role_id' => ['required'],
-            'status' => ['required']
+            'product_id' => ['required', 'integer'],
+            'count' => 'required',
+            'price' => 'required',
+            'margin' => 'required',
+            'storage_id' => ['required', 'integer']
         ];
     }
 }

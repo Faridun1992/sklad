@@ -32,7 +32,7 @@
                                                                                    target="_self">Главная страница</a>
                                                     </li>
                                                     <li class="breadcrumb-item active"><span
-                                                            aria-current="location"><a href="{{route('roles.index')}}"></a> Логи</span></li>
+                                                            aria-current="location"><a href="{{route('logs.index')}}"></a> Логи</span></li>
                                                     <li class="breadcrumb-item active"><span
                                                             aria-current="location">Лог </span></li>
                                                 </ol>
@@ -61,7 +61,7 @@
                                                 <div>Пользователь</div>
                                             </th>
                                             <th role="columnheader" scope="col" aria-colindex="3" class="">
-                                                <div>Действие</div>
+                                                <div>Текст</div>
                                             </th>
                                             <th role="columnheader" scope="col" aria-colindex="4" class="">
                                                 <div>Дата</div>
@@ -73,14 +73,14 @@
 
                                             <tr role="row" class="">
                                                 <td aria-colindex="1" data-label="ID" role="cell" class="">
-                                                    <div></div>
+                                                    <div>{{$activity->id}}</div>
                                                 </td>
 
                                                 <td aria-colindex="2" data-label="Имя" role="cell" class="">
-                                                    <div></div>
+                                                    <div>{{$user->name}}</div>
                                                 </td>
                                                 <td aria-colindex="3" data-label="Должность" role="cell" class="">
-                                                    <div></div>
+                                                    <div>{{$activity->properties}}</div>
                                                 </td>
                                                 <td aria-colindex="4" data-label="Телефон" role="cell" class="">
                                                     <div>
@@ -91,7 +91,7 @@
 
                                         </tbody><!---->
                                     </table>
-                                    {{--                 {{$workers->links()}}--}}
+                                    {{--                 {{$users->links()}}--}}
                                 </div>
                             </div><!----><!----></div>
                         <div class="row">
