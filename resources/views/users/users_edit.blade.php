@@ -8,7 +8,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Редактирование сотрудника {{$worker->name}}</h1>
+                        <h1>Редактирование сотрудника {{$user->name}}</h1>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -49,7 +49,7 @@
                                                                                    class="active"
                                                                                    target="_self">Сотрудники</a></li>
                                                     <li class="breadcrumb-item active"><span
-                                                            aria-current="location">Редактирование сотрудника {{$worker->name}}</span>
+                                                            aria-current="location">Редактирование сотрудника {{$user->name}}</span>
                                                     </li>
                                                 </ol>
                                             </div>
@@ -64,36 +64,18 @@
                         <div class="card card-with-table"><!---->
                             <div class="card-header"><span class="card-header-title">Сотрудники</span></div>
                             <div class="card-body"><!----><!---->
-                                <form action="{{route('users.update', $worker)}}" method="post"
+                                <form action="{{route('users.update', $user)}}" method="post"
                                       enctype="multipart/form-data">
                                     @csrf
                                     @method('put')
-                                    <div class="form-group has-feedback">
-                                        <label for="name">Имя сотрудника</label>
-                                        <input type="text" name="name" value="{{$worker->name}}" class="form-control"
-                                               placeholder="Введите имя сотрудника" required>
-                                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                    </div>
-                                    <div class="form-group has-feedback">
-                                        <label for="email">Электронная почта</label>
-                                        <input type="email" name="email" value="{{$worker->email}}" class="form-control"
-                                               placeholder="Почта сотрудника" required>
-                                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                    </div>
-                                    <div class="form-group has-feedback">
-                                        <label for="phone">Телефон сотрудника</label>
-                                        <input type="text" name="phone" value="{{$worker->phone}}" class="form-control"
-                                               placeholder="Введите в формате +7 777 000 00 00" required>
-                                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="category_id">Выбирите категорию</label>
-                                        <select class="form-control select2" name="role_id">
+                                    <div>
+                                        <select name="role">
                                             @foreach($roles as $role)
-                                                @if($role->title == $worker->role->title)
-                                                    <option selected value="{{ $role->id }}">{{ $role->title }}</option>
+                                                @if($user->roles->contains($role))
+                                                    <option selected
+                                                            value="{{ $role->name }}">{{ $role->name }}</option>
                                                 @else
-                                                    <option value="{{ $role->id }}">{{ $role->title }}</option>
+                                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
                                                 @endif
                                             @endforeach
                                         </select>
@@ -102,7 +84,7 @@
                                         <label>
                                             <input type="hidden" name="status" value="0">
                                             <input type="checkbox" name="status"
-                                                   value="1" {{($worker->status) ? 'checked' : '0'}}>
+                                                   value="1" {{($user->status) ? 'checked' : '0'}}>
 
                                             Текущий работник
                                         </label>

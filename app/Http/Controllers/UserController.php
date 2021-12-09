@@ -29,7 +29,7 @@ class UserController extends Controller
     }
 
 
-    public function create()
+   /* public function create()
     {
         $roles = Role::all();
         return view('users.users_create', compact('roles'));
@@ -39,12 +39,13 @@ class UserController extends Controller
     {
 
         $user->create($request->validated());
+        $user->assignRole($request->role);
         return redirect()->route('users.index')->with('status', 'Новый работник успешно добавлен');
-    }
+    }*/
 
     public function edit(User $user)
     {
-        $user->load('role');
+        $user->load('roles');
         $roles = Role::all();
         return view('users.users_edit', compact('user', 'roles'));
     }
@@ -53,6 +54,8 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $user->update($request->validated());
+        $user->syncRoles($request->role);
+
         return back()->with('status', "Сотрудник $user->name успешно отредактирован");
     }
 
