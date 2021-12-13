@@ -15,7 +15,7 @@ class Product extends Model
     protected $fillable = [
         'image', 'title',
         'category_id', 'unit_id',
-        'code', 'vendor_code', 'storage_id'];
+        'code', 'vendor_code', 'storage_id', 'total_count'];
 
     public function unit()
     {
@@ -39,4 +39,10 @@ class Product extends Model
     {
         return $filter->apply($builder, $request);
     }
+
+    public function storages()
+    {
+        return $this->belongsToMany(Storage::class)->withPivot('count');
+    }
+
 }

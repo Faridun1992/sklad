@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Http\Requests\ProductStoreRequest;
 use App\Models\Acceptance;
 use App\Models\Product;
+use App\Models\Storage;
 
 class StoreProductAction
 {
@@ -32,5 +33,11 @@ class StoreProductAction
             'storage_id' => $request->storage_id,
             'product_id' => $product->id
         ]);
+
+        $product->storages()->attach($request->storage_id, [
+            'count' => $request->count,
+        ]);
     }
+
+
 }

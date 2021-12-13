@@ -98,7 +98,7 @@
                                             <tr role="row" class="">
 
                                                 <td aria-colindex="1" data-label="Название" role="cell" class="">
-                                                    <div>{{$storage->title}}</div>
+                                                    <a href="{{route('products.index', ['storage_id' => $storage->id])}}"><div>{{$storage->title}}</div></a>
                                                 </td>
                                                 <td aria-colindex="2" data-label="Адресс" role="cell" class="">
                                                     <div>{{$storage->address}}</div>

@@ -186,7 +186,7 @@
                                         </td>
                                         <td aria-colindex="5" data-label="Количество" role="cell" class="">
                                             <div>
-                                                {{$product->acceptances_sum_count ?? 0}}
+                                                {{$product->storages->sum('pivot.count')}}
                                             </div>
                                         </td>
                                         <td aria-colindex="6" data-label="Общая сумма" role="cell" class="">

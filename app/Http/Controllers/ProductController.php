@@ -20,11 +20,11 @@ class ProductController extends Controller
     public function index(ProductFilter $filter, Request $request)
     {
 
-        $products = Product::with('category', 'lastAcceptance')
-            ->withSum('acceptances', 'count')
+        $products = Product::with('category', 'lastAcceptance', 'storages')
             ->filter($filter, $request)
             ->latest()
             ->paginate(10);
+
         $storages = Storage::all();
         $categories = Category::all();
         return view('products.products_main', compact('products', 'categories', 'storages'));
@@ -47,7 +47,7 @@ class ProductController extends Controller
 
     public function store(ProductStoreRequest $request, StoreProductAction $action)
     {
-        $action->handle($request);
+        $action->handle ($request);
 
         return redirect()->route('products.index')->with('status', 'Товар успешно добавлен');
     }

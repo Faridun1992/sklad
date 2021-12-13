@@ -15,9 +15,8 @@ class StorageController extends Controller
             ->withSum('acceptances', 'total_buying_price')
             ->get();
         return view('storages.storages_main', compact('storages'));
-
     }
-
+    
 
     public function create()
     {

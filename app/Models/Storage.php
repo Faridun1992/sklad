@@ -15,4 +15,14 @@ class Storage extends Model
     {
         return $this->hasMany(Acceptance::class);
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class)->withPivot('count');
+    }
+
+    public function movements()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

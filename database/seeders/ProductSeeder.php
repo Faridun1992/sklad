@@ -15,6 +15,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        Product::factory(100)->create();
+        $storages = Storage::all();
+        Product::factory(100)->create()->each(fn($product)=>$product->storages()->attach($storages->random(rand(1, 2))));
     }
 }
