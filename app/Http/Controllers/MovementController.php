@@ -35,6 +35,7 @@ class MovementController extends Controller
     public function show($id)
     {
         //
+        return response()->json(Product::findOrFail($id)->load(['storages', 'unit']));
     }
 
 
@@ -52,38 +53,25 @@ class MovementController extends Controller
 
     public function search(Request $request)
     {
-        if ($request->ajax()) {
-            $data = Product::with('unit')
-                ->with(['storages' => fn($query) => $query->where('storage_id', 'LIKE', '%' . $request->storage_id . '%')
-                    ->where('count', '>', 0)])
-                ->whereHas('storages', fn($query) => $query->where('storage_id', 'LIKE', '%' . $request->storage_id . '%')
-                    ->where('count', '>', 0))
-                ->where('title', 'LIKE', '%' . $request->product . '%')
-                ->orWhere('code', 'LIKE', '%' . $request->product . '%')
-                ->get();
-            $output = '';
-
-            if (count($data) > 0) {
-
-                $output = '<ul class="list-group" style="display: block; position: relative; z-index: 1">';
-
-                foreach ($data as $row) {
-
-                    $output .=
-                        "<li class='list-group-item' id='id'><a class='qwerty' data-id=".$row->id." href=".route('movements.create', ['storage_id' => $request->storage_id, 'storage2_id' => $request->storage2_id, 'product' => $row->id]).">"
-                        . $row->title .
-                        "</a></li>";
-                }
-
-                $output .= '</ul>';
-            } else {
-
-                $output .= '<li class="list-group-item">' . 'Ничего не найдено' . '</li>';
-            }
-
-            return $output;
+        if (!$request->ajax()) {
+            abort(403);
         }
 
+        $data = Product::with('unit')
+            ->with(['storages' => fn($query) => $query->where('storage_id', 'LIKE', '%' . $request->storage_id . '%')
+                ->where('count', '>', 0)])
+            ->whereHas('storages', fn($query) => $query->where('storage_id', 'LIKE', '%' . $request->storage_id . '%')
+                ->where('count', '>', 0))
+            ->where(function ($q) use ($request) {
+                $q->where('title', 'LIKE', '%' . $request->product . '%')
+                    ->orWhere('code', 'LIKE', '%' . $request->product . '%');
+            });
+
+        if ($request->has('products')) {
+            $data->whereNotIn('id', $request->products);
+        }
+
+        return response()->json($data->get());
     }
 
     public function productForMovement($id)
@@ -92,7 +80,7 @@ class MovementController extends Controller
 
         $products = session()->get('products', []);
 
-        if(isset($products[$id])) {
+        if (isset($products[$id])) {
             $products[$id]['quantity']++;
         } else {
             $products[$id] = [

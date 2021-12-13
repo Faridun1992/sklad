@@ -113,8 +113,15 @@
                                             <div>
                                                 <div role="group" class="input-group">
                                                     <div class="form-group col-md-4">
-                                                            <input type="text" name="product" id="product" placeholder="Поиск по названию иди штрихкоду" class="form-control">
-                                                        <div id="product_list"></div>
+                                                        <input type="text" name="product" id="product"
+                                                               placeholder="Поиск по названию иди штрихкоду"
+                                                               class="form-control">
+                                                        <div id="product_list">
+                                                            <ul class="list-group d-block position-relative"
+                                                                id="productsList" style="z-index: 1">
+
+                                                            </ul>
+                                                        </div>
 
                                                     </div>
                                                     <div class="form-group col-md-1">
@@ -172,41 +179,7 @@
                                     </tr>
                                     </thead>
 
-                                    <tbody role="rowgroup">
-
-
-                                    <tr role="row" class="">
-                                        <td aria-colindex="1" data-label="№" role="cell" class="">
-                                            <div></div>
-                                        </td>
-
-                                        <td aria-colindex="2" data-label="Название" role="cell" class="">
-                                            <div></div>
-                                        </td>
-                                        <td aria-colindex="3" data-label="Штрихкод" role="cell" class="">
-                                            <div></div>
-                                        </td>
-                                        <td aria-colindex="4" data-label="Остаток" role="cell" class="">
-                                            <div></div>
-                                        </td>
-                                        <td aria-colindex="4" data-label="Количество" role="cell" class="">
-                                            <div>
-
-                                            </div>
-                                        </td>
-                                        <td aria-colindex="5" data-label="Ед.измерения" role="cell" class="">
-                                            <div></div>
-                                        </td>
-                                        <td aria-colindex="7" data-label="Действия" role="cell" class="">
-                                            <form action="#"
-                                                  method="POST">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btn-danger btn-xs" type="submit">Удалить
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    <tbody role="rowgroup" id="tbody">
 
 
                                     </tbody><!---->
@@ -224,42 +197,97 @@
 @endsection
 @section('script')
     <script>
-        $(document).ready(function () {
-            $('#product_list').click(function () {
-                $('#MyForm').toggle(500);
-            });
-        });
-
 
         $(document).ready(function () {
+            const productsList = $('#productsList'),
+                showProduct = "{{url('movements')}}",
+                myForm = $('#MyForm'),
+                searchInput= $('#product');
 
-            $('#product').on('keyup',function() {
+            let products = []
+
+
+            searchInput.on('keyup', function () {
                 var query = $(this).val();
                 $.ajax({
+                    url: "{{ route('search') }}",
+                    type: "GET",
+                    data: {'product': query, products: products},
+                    success: function (data) {
+                        let html = ''
+                        data.forEach(item => {
+                            html += renderList(item.id, item.title)
+                        })
 
-                    url:"{{ route('search') }}",
+                        if (data.length === 0) {
+                            html = renderList('', 'Ничего не найдено')
+                        }
 
-                    type:"GET",
-
-                    data:{'product':query},
-
-                    success:function (data) {
-
-                        $('#product_list').html(data);
+                        productsList.html(html);
                     }
                 })
-                // end of ajax call
             });
 
+            function renderList(id, title) {
+                return (`
+                    <li class='list-group-item' style="cursor:pointer" data-id="${id}">${title}</li>
+                `)
+            }
 
-            $(document).on('click', 'li', function(){
+            $(document).on('click', '.list-group-item', function () {
+                $.ajax({
+                    url: `${showProduct}/${$(this).data('id')}`,
+                    data: ({id: $(this).data('id')}),
+                    success: function (data) {
+                        myForm.show();
+                        searchInput.val('')
+                        products.push(data.id)
+                        $('#tbody').append(renderRow(data))
+                        productsList.html("");
 
-                var value = $(this).text();
-                $('#product').val(value);
-                $('#product_list').html("");
+                    }
+                })
             });
+
+            $(document).on('click', '.remove', function () {
+                products = products.filter(product => product !== $(this).closest('tr').data('id'))
+                $(this).closest('tr').remove()
+
+            })
+
+            function renderRow(data) {
+                return (`
+                     <tr role="row" class="" data-id="${data.id}">
+                            <td aria-colindex="1" data-label="№" role="cell" class="">
+                                <div>${data.id}</div>
+                            </td>
+
+                            <td aria-colindex="2" data-label="Название" role="cell" class="">
+                                <div>${data.title}</div>
+                            </td>
+                            <td aria-colindex="3" data-label="Штрихкод" role="cell" class="">
+                                <div>${data.code}</div>
+                            </td>
+                            <td aria-colindex="4" data-label="Остаток" role="cell" class="">
+                                <div></div>
+                            </td>
+                            <td aria-colindex="4" data-label="Количество" role="cell" class="">
+                                <div>
+
+                                </div>
+                            </td>
+                            <td aria-colindex="5" data-label="Ед.измерения" role="cell" class="">
+                                <div>${data.unit.title}</div>
+                            </td>
+                            <td aria-colindex="7" data-label="Действия" role="cell">
+                                <button class="btn btn-danger btn-xs remove" type="submit">Удалить
+                                </button>
+
+                            </td>
+                    </tr>
+`)
+            }
         });
-            //ajax href
 
 
     </script>
