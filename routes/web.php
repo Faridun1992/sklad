@@ -27,7 +27,6 @@ Route::resource('storages', Controllers\StorageController::class);
 Route::resource('acceptances', Controllers\AcceptanceController::class);
 Route::resource('movements', Controllers\MovementController::class);
 Route::get('search', [Controllers\MovementController::class, 'search'])->name('search');
-Route::get('add-to-cart/{id}', [Controllers\MovementController::class, 'productForMovement'])->name('add.to.cart');
 //});
 
 require __DIR__ . '/auth.php';

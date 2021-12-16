@@ -7,6 +7,7 @@ use App\Models\Movement;
 use App\Models\Product;
 use App\Models\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MovementController extends Controller
 {
@@ -21,6 +22,7 @@ class MovementController extends Controller
 
     public function create()
     {
+
         $storages = Storage::all();
         return view('movements.movements_create', compact('storages'));
     }
@@ -28,7 +30,8 @@ class MovementController extends Controller
 
     public function store(Request $request, Movement $movement)
     {
-        //
+        dd($request->storage_id);
+        return redirect()->route('movements.index');
     }
 
 
@@ -53,11 +56,10 @@ class MovementController extends Controller
 
     public function search(Request $request)
     {
-        if (!$request->ajax()) {
-            abort(403);
-        }
+        abort_if(!$request->ajax(), 403);
 
         $data = Product::with('unit')
+            ->when($request->has('products'), fn($query) => $query->whereNotIn('id', $request->products))
             ->with(['storages' => fn($query) => $query->where('storage_id', 'LIKE', '%' . $request->storage_id . '%')
                 ->where('count', '>', 0)])
             ->whereHas('storages', fn($query) => $query->where('storage_id', 'LIKE', '%' . $request->storage_id . '%')
@@ -67,31 +69,6 @@ class MovementController extends Controller
                     ->orWhere('code', 'LIKE', '%' . $request->product . '%');
             });
 
-        if ($request->has('products')) {
-            $data->whereNotIn('id', $request->products);
-        }
-
         return response()->json($data->get());
     }
-
-    public function productForMovement($id)
-    {
-        $product = Product::findOrFail($id);
-
-        $products = session()->get('products', []);
-
-        if (isset($products[$id])) {
-            $products[$id]['quantity']++;
-        } else {
-            $products[$id] = [
-                "name" => $product->name,
-                "quantity" => 1,
-                "price" => $product->price
-            ];
-        }
-
-        session()->put('products', $products);
-    }
-
-
 }

@@ -62,6 +62,8 @@
                         </div>
                     </div>
                     <div>
+                        <form action="{{route('movements.store')}}" method="post">
+                            @csrf
                         <div class="card card-with-table">
                             <div class="card-header">
                                 <div class="card-body pb-1">
@@ -108,7 +110,6 @@
                         <div class="card card-with-table">
                             <div class="card-header">
                                 <div class="card-body pb-1">
-                                    <form class="row">
                                         <fieldset class="form-group col-sm">
                                             <div>
                                                 <div role="group" class="input-group">
@@ -132,7 +133,6 @@
                                                 </div>
                                             </div>
                                         </fieldset>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +187,9 @@
                                 {{-- {{$products->withQueryString()->links()}}--}}
                             </div>
                         </div>
+                        </form>
                     </div>
+
                     <div class="row">
                         <div class="col mr-auto"><!----></div> <!----></div>
                 </div> <!----> <!---->
@@ -269,12 +271,11 @@
                                 <div>${data.code}</div>
                             </td>
                             <td aria-colindex="4" data-label="Остаток" role="cell" class="">
-                                <div></div>
+                                <div>${data.storages.count}</div>
+
                             </td>
                             <td aria-colindex="4" data-label="Количество" role="cell" class="">
-                                <div>
-
-                                </div>
+                                <div><input type="text" name="addCount"></div>
                             </td>
                             <td aria-colindex="5" data-label="Ед.измерения" role="cell" class="">
                                 <div>${data.unit.title}</div>
