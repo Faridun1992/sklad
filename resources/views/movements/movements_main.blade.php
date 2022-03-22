@@ -75,7 +75,7 @@
                                     <fieldset class="form-group col-auto">
                                         <div>
                                             <button type="submit" class="btn btn-success"
-                                                    formaction="{{route('movements.create', ['storage_id' => $storage->id, 'storage2_id' => $storage->id])}}">
+                                                    formaction="{{route('movements.create', ['storage1_id' => $storage->id, 'storage2_id' => $storage->id])}}">
                                                 Выбрать
                                             </button>
                                         </div>

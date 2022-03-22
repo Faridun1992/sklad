@@ -74,23 +74,17 @@
                                             </legend>
                                             <div>
                                                 <div role="group" class="input-group">
-                                                    @foreach($storages as $storage)
-                                                        <input
-                                                            @if(isset($_GET['storage_id']) && $_GET['storage_id'] == $storage->id) value="{{$storage->title}}"
-                                                            @else hidden @endif  name="storage_id" type="text"
-                                                            disabled="disabled" class="form-control">
-                                                    @endforeach
+                                                    <select id="storage1_id" name="storage1_id" class="form-control" disabled>
+                                                        <option value="{{$storage1->id}}">{{$storage1->title}}</option>
+                                                    </select>
                                                     <div class="input-group-prepend input-group-append">
                                                         <div class="input-group-text">
                                                             <i class="fas fa-angle-right right"></i>
                                                         </div>
                                                     </div>
-                                                    @foreach($storages as $storage)
-                                                        <input
-                                                            @if(isset($_GET['storage2_id']) && $_GET['storage2_id'] == $storage->id) value="{{$storage->title}}"
-                                                            @else hidden @endif  name="storage2_id" type="text"
-                                                            disabled="disabled" class="form-control">
-                                                    @endforeach
+                                                    <select id="storage2_id" name="storage2_id" class="form-control" disabled>
+                                                        <option value="{{$storage2->id}}">{{$storage2->title}}</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -184,7 +178,6 @@
 
                                     </tbody><!---->
                                 </table>
-                                {{-- {{$products->withQueryString()->links()}}--}}
                             </div>
                         </div>
                         </form>
@@ -210,11 +203,18 @@
 
 
             searchInput.on('keyup', function () {
+                var storage1_id = $('#storage1_id').val();
+                var storage2_id = $('#storage2_id').val();
                 var query = $(this).val();
                 $.ajax({
                     url: "{{ route('search') }}",
                     type: "GET",
-                    data: {'product': query, products: products},
+                    data: {
+                        'product': query,
+                        products: products,
+                        'storage1_id' : storage1_id,
+                        'storage2_id' : storage2_id,
+                    },
                     success: function (data) {
                         let html = ''
                         data.forEach(item => {
@@ -237,9 +237,13 @@
             }
 
             $(document).on('click', '.list-group-item', function () {
+               var storage1_id = $('#storage1_id').val();
                 $.ajax({
                     url: `${showProduct}/${$(this).data('id')}`,
-                    data: ({id: $(this).data('id')}),
+                    data: ({
+                        id: $(this).data('id'),
+                        'storage1_id' : storage1_id,
+                    }),
                     success: function (data) {
                         myForm.show();
                         searchInput.val('')
@@ -259,26 +263,26 @@
 
             function renderRow(data) {
                 return (`
-                     <tr role="row" class="" data-id="${data.id}">
-                            <td aria-colindex="1" data-label="№" role="cell" class="">
-                                <div>${data.id}</div>
+                     <tr role="row" class="" data-id="${data.product.id}">
+                            <td aria-colindex="1"  data-label="№" role="cell" class="">
+                                <div>${data.product.id}</div>
                             </td>
 
                             <td aria-colindex="2" data-label="Название" role="cell" class="">
-                                <div>${data.title}</div>
+                                <div>${data.product.title}</div>
                             </td>
                             <td aria-colindex="3" data-label="Штрихкод" role="cell" class="">
-                                <div>${data.code}</div>
+                                <div>${data.product.code}</div>
                             </td>
                             <td aria-colindex="4" data-label="Остаток" role="cell" class="">
-                                <div>${data.storages.count}</div>
+                                <div>${data.count}</div>
 
                             </td>
                             <td aria-colindex="4" data-label="Количество" role="cell" class="">
-                                <div><input type="text" name="addCount"></div>
+                                <div><input min="1" max="" type="text" name="addCount"></div>
                             </td>
                             <td aria-colindex="5" data-label="Ед.измерения" role="cell" class="">
-                                <div>${data.unit.title}</div>
+                                <div>${data.product.unit.title}</div>
                             </td>
                             <td aria-colindex="7" data-label="Действия" role="cell">
                                 <button class="btn btn-danger btn-xs remove" type="submit">Удалить

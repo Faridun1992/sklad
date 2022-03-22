@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\ProductFilter;
 use App\Models\Movement;
 use App\Models\Product;
+use App\Models\ProductStorage;
 use App\Models\Storage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class MovementController extends Controller
 {
@@ -20,25 +19,28 @@ class MovementController extends Controller
     }
 
 
-    public function create()
+    public function create(Request $request)
     {
-
-        $storages = Storage::all();
-        return view('movements.movements_create', compact('storages'));
+        $storage1 = Storage::where('id', $request->storage_id)->first();
+        $storage2 = Storage::where('id', $request->storage2_id)->first();
+        return view('movements.movements_create', compact('storage1', 'storage2'));
     }
 
 
     public function store(Request $request, Movement $movement)
     {
-        dd($request->storage_id);
+        dd($request->all());
         return redirect()->route('movements.index');
     }
 
 
-    public function show($id)
+    public function show($id, Request $request)
     {
-        //
-        return response()->json(Product::findOrFail($id)->load(['storages', 'unit']));
+        $product = ProductStorage::where('product_id', $id)
+            ->where('storage_id', $request->storage1_id)
+            ->with('product', 'storage', 'product.unit')
+            ->first();
+        return response()->json($product);
     }
 
 
@@ -60,15 +62,15 @@ class MovementController extends Controller
 
         $data = Product::with('unit')
             ->when($request->has('products'), fn($query) => $query->whereNotIn('id', $request->products))
-            ->with(['storages' => fn($query) => $query->where('storage_id', 'LIKE', '%' . $request->storage_id . '%')
-                ->where('count', '>', 0)])
-            ->whereHas('storages', fn($query) => $query->where('storage_id', 'LIKE', '%' . $request->storage_id . '%')
+            ->with(['storages' => fn($query) => $query->where(fn($q) => $q->where('storage_id', $request->storage1_id)
+                ->where('count', '>', 0))])
+            ->whereHas('storages', fn($query) => $query->where('storage_id', $request->storage1_id)
                 ->where('count', '>', 0))
             ->where(function ($q) use ($request) {
                 $q->where('title', 'LIKE', '%' . $request->product . '%')
                     ->orWhere('code', 'LIKE', '%' . $request->product . '%');
-            });
+            })->get();
 
-        return response()->json($data->get());
+        return response()->json($data);
     }
 }
