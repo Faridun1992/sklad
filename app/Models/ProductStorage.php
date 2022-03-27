@@ -11,6 +11,8 @@ class ProductStorage extends Model
 
     protected $table = 'product_storage';
 
+    protected $fillable = ['product_id', 'storage_id', 'count'];
+
     public function product()
     {
         return $this->belongsTo(Product::class);

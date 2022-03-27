@@ -15,7 +15,7 @@ class Product extends Model
     protected $fillable = [
         'image', 'title',
         'category_id', 'unit_id',
-        'code', 'vendor_code', 'storage_id', 'total_count'];
+        'code', 'vendor_code'];
 
     public function unit()
     {
@@ -28,11 +28,11 @@ class Product extends Model
 
     public function acceptances()
     {
-        return $this->hasMany(Acceptance::class);
+        return $this->belongsToMany(Acceptance::class);
     }
     public function lastAcceptance()
     {
-        return $this->hasOne(Acceptance::class)->latest();
+        return $this->belongsToMany(Acceptance::class)->latest();
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter, Request $request)
@@ -43,6 +43,11 @@ class Product extends Model
     public function storages()
     {
         return $this->belongsToMany(Storage::class)->withPivot('count');
+    }
+
+    public function movements()
+    {
+        return $this->belongsToMany(Movement::class);
     }
 
 }

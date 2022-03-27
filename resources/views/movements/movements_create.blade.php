@@ -238,17 +238,19 @@
 
             $(document).on('click', '.list-group-item', function () {
                var storage1_id = $('#storage1_id').val();
+               var storage2_id = $('#storage2_id').val();
                 $.ajax({
                     url: `${showProduct}/${$(this).data('id')}`,
                     data: ({
                         id: $(this).data('id'),
                         'storage1_id' : storage1_id,
+                        'storage2_id' : storage2_id,
                     }),
                     success: function (data) {
                         myForm.show();
                         searchInput.val('')
                         products.push(data.id)
-                        $('#tbody').append(renderRow(data))
+                        $('#tbody').append(renderRow(data, storage1_id, storage2_id))
                         productsList.html("");
 
                     }
@@ -261,9 +263,12 @@
 
             })
 
-            function renderRow(data) {
+            function renderRow(data, storage1_id, storage2_id) {
                 return (`
                      <tr role="row" class="" data-id="${data.product.id}">
+                            <input type="hidden" name="storage1_id" value="${storage1_id}">
+                            <input type="hidden" name="storage2_id" value="${storage2_id}">
+                            <input type="hidden" name="id[]" value="${data.product.id}">
                             <td aria-colindex="1"  data-label="№" role="cell" class="">
                                 <div>${data.product.id}</div>
                             </td>
@@ -279,7 +284,7 @@
 
                             </td>
                             <td aria-colindex="4" data-label="Количество" role="cell" class="">
-                                <div><input min="1" max="" type="text" name="addCount"></div>
+                                <div><input min="1" max="" type="text" name="addCount[]"></div>
                             </td>
                             <td aria-colindex="5" data-label="Ед.измерения" role="cell" class="">
                                 <div>${data.product.unit.title}</div>

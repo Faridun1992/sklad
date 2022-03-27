@@ -191,7 +191,7 @@
                                         </td>
                                         <td aria-colindex="6" data-label="Общая сумма" role="cell" class="">
                                             <div>
-                                                {{$product->lastAcceptance->selling_price ?? 0}} ₸
+                                                {{$product->lastAcceptance[0]->selling_price ?? 0}} ₸
                                             </div>
                                         </td>
                                         <td aria-colindex="7" data-label="Действия" role="cell" class="">

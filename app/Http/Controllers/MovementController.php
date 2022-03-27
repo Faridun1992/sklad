@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\StoreMovementAction;
 use App\Models\Movement;
 use App\Models\Product;
 use App\Models\ProductStorage;
@@ -27,9 +28,9 @@ class MovementController extends Controller
     }
 
 
-    public function store(Request $request, Movement $movement)
+    public function store(Request $request, Movement $movement, StoreMovementAction $action)
     {
-        dd($request->all());
+        $action->handle($request, $movement);
         return redirect()->route('movements.index');
     }
 
@@ -63,8 +64,8 @@ class MovementController extends Controller
 
         $data = Product::with('unit')
             ->when($request->has('products'), fn($query) => $query->whereNotIn('id', $request->products))
-            ->with(['storages' => fn($query) => $query->where(fn($q) => $q->where('storage_id', $request->storage1_id)
-                ->where('count', '>', 0))])
+            ->with( 'storages', fn($query)=> $query->where('storage_id', $request->storage1_id)
+                ->where('count', '>', 0))
             ->whereHas('storages', fn($query) => $query->where('storage_id', $request->storage1_id)
                 ->where('count', '>', 0))
             ->where(function ($q) use ($request) {
@@ -73,5 +74,11 @@ class MovementController extends Controller
             })->get();
 
         return response()->json($data);
+    }
+
+    public function showMovement($id)
+    {
+        $movement = Movement::with('products', 'storage1', 'storage2')->where('id', $id)->first();
+        return view('movements.movements_show', compact('movement'));
     }
 }

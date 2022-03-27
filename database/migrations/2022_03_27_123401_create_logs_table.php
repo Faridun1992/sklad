@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAcceptancesTable extends Migration
+class CreateLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateAcceptancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('acceptances', function (Blueprint $table) {
+        Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->float('count');
-            $table->float('price');
-            $table->float('margin');
-            $table->float('selling_price');
-            $table->float('total_buying_price');
-            $table->foreignId('storage_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->string('ip_adress');
+            $table->string('browser', 512);
+            $table->string('action', 512);
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateAcceptancesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('storages');
+        Schema::dropIfExists('logs');
     }
 }

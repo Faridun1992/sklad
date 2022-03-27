@@ -202,14 +202,14 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                @role('Администратор')
+
                 <li>
                     <a href="{{route('logs.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Логи</p>
                     </a>
                 </li>
-                @endrole
+
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>

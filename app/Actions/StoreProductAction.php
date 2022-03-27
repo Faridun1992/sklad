@@ -5,7 +5,6 @@ namespace App\Actions;
 use App\Http\Requests\ProductStoreRequest;
 use App\Models\Acceptance;
 use App\Models\Product;
-use App\Models\Storage;
 
 class StoreProductAction
 {
@@ -24,15 +23,13 @@ class StoreProductAction
             'vendor_code' => $request->vendor_code,
         ]);
         Acceptance::create([
-
             'count' => $request->count,
             'price' => $request->price,
             'margin' => $request->margin,
             'selling_price' => $request->price + ($request->price * $request->margin) / 100,
             'total_buying_price' => $request->price * $request->count,
             'storage_id' => $request->storage_id,
-            'product_id' => $product->id
-        ]);
+        ])->products()->attach($product);
 
         $product->storages()->attach($request->storage_id, [
             'count' => $request->count,

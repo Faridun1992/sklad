@@ -24,7 +24,6 @@ class ProductController extends Controller
             ->filter($filter, $request)
             ->latest()
             ->paginate(10);
-
         $storages = Storage::all();
         $categories = Category::all();
         return view('products.products_main', compact('products', 'categories', 'storages'));
@@ -33,11 +32,11 @@ class ProductController extends Controller
 
     public function create(ProductFilter $filter, Request $request)
     {
-        $request->has('search_field_code') ?
-            $product = Product::with('category', 'acceptances.storage')
+        $request->has('search_field_code')
+            ? $product = Product::with('category', 'acceptances.storage')
                 ->filter($filter, $request)
-                ->firstOrFail() :
-            $product = '';
+                ->first()
+            : $product = '';
         $storages = Storage::all();
         $units = Unit::all();
         $categories = Category::all();
@@ -47,7 +46,7 @@ class ProductController extends Controller
 
     public function store(ProductStoreRequest $request, StoreProductAction $action)
     {
-        $action->handle ($request);
+        $action->handle($request);
 
         return redirect()->route('products.index')->with('status', 'Товар успешно добавлен');
     }

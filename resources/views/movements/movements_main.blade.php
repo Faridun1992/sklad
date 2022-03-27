@@ -188,7 +188,7 @@
                                             </div>
                                         </td>
                                         <td aria-colindex="5" data-label="Действия" role="cell" class="">
-                                            <a href="{{route('movements.show', $movement)}}">
+                                            <a href="{{route('movement.show', $movement)}}">
                                                 <button class="btn btn-secondary btn-xs" type="submit">
                                                     Просмотр
                                                 </button>

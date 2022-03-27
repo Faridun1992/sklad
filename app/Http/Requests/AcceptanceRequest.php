@@ -24,7 +24,6 @@ class AcceptanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id' => ['required', 'integer'],
             'count' => 'required',
             'price' => 'required',
             'margin' => 'required',

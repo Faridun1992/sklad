@@ -71,7 +71,7 @@
                                                 <div role="group" class="input-group">
                                                     <input name="search_field_code"
                                                            @if(isset($_GET['search_field_code']) && !empty($_GET['search_field_code'])) value="{{$_GET['search_field_code']}}"
-                                                           @endif id="filter_barcode" type="text" placeholder="Штрихкод"
+                                                           @endif  type="text" placeholder="Штрихкод"
                                                            class="form-control">
                                                 </div>
                                             </div>
@@ -298,7 +298,6 @@
                     <div class="row">
                         <div class="col mr-auto"><!----></div> <!----></div>
                 </div> <!----> <!---->
-    </div>
     </main>
     </section>
     </div>

@@ -17,7 +17,7 @@ class CreateProductStorageTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained();
             $table->foreignId('storage_id')->constrained();
-            $table->string('count')->default(0);
+            $table->integer('count')->unsigned()->default(0);
             $table->timestamps();
         });
     }

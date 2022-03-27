@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAcceptancesTable extends Migration
+class CreateAcceptanceProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateAcceptancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('acceptances', function (Blueprint $table) {
+        Schema::create('acceptance_product', function (Blueprint $table) {
             $table->id();
-            $table->float('count');
-            $table->float('price');
-            $table->float('margin');
-            $table->float('selling_price');
-            $table->float('total_buying_price');
-            $table->foreignId('storage_id')->constrained();
+            $table->foreignId('acceptance_id')->constrained();
+            $table->foreignId('product_id')->constrained();
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreateAcceptancesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('storages');
+        Schema::dropIfExists('acceptance_product');
     }
 }

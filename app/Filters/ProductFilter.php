@@ -2,7 +2,6 @@
 
 namespace App\Filters;
 
-use Illuminate\Http\Request;
 
 class ProductFilter extends QueryFilter
 {
@@ -34,11 +33,4 @@ class ProductFilter extends QueryFilter
             ->where('code', 'LIKE', '%' . $search_string . '%');
     }
 
-    /*public function search_field_title_or_code($search_string = '', Request $request)
-    {
-        return $this->builder
-            ->when($request->has('storage_id'), fn($query) => $query->with(['storages' => fn($q) => $q->where('storage_id', $request->storage_id)]))
-            ->where('code', 'LIKE', '%' . $search_string . '%')
-            ->orWhere('title', 'LIKE', '%' . $search_string . '%');
-    }*/
 }
